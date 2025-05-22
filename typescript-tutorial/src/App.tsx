@@ -1,28 +1,26 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import './App.css';
-import InputFeild from './components/inputFeild'; 
-
-// let name: string = 'world';
-// let age: number | string = 18;
-// let isStudent: boolean = true;
-// let hobbies: string[] = ['reading', 'gaming', 'coding'];
-
-// type Person = { name: string; age?: number }
-// let person: Person = { name: 'John', age: 30 };
-
-// let allPersons: Person[] ;
-
-// function printname(name: string) {
-//   console.log(name);
-// }
-
-// printname("Sanjiv");
+import InputFeild from './components/InputFeild'; 
+import { Todo } from './model';
+import TodoList from './components/TodoList';
 
 const App: React.FC = () => {
+  const [todo, setTodo] = useState<string>("");
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  const handleAdd=(e:React.FormEvent)=>{
+    e.preventDefault();
+    if(todo){
+      setTodos([...todos,{id:Date.now(), todo:todo, isDone:false}]);
+      setTodo("");
+    }
+  }
+  console.log(todos);
   return(
     <div className="App">
       <span className="heading">Taskify</span>
-      <InputFeild/>
+     <InputFeild todo={todo} setTodo={setTodo} handelAdd={handleAdd}/>
+      <TodoList todos={todos} setTodos={setTodos}/>
     </div>
   )
 }
